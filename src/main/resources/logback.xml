@@ -64,10 +64,10 @@
 			<MaxFileSize>10MB</MaxFileSize>
 		</triggeringPolicy>
 	</appender>
-	<appender name="MONGODBLOG" class="com.lamezhi.framework.config.mongodb.MongoDBAppender"> 
+	<appender name="MONGODBLOG" class="cn.com.jicongg.config.mongodb.MongoDBAppender"> 
 	</appender>
 	
-	<logger name="com.lamezhi.framework.mapper.BaseMapper" level="DEBUG" />
+	<logger name="cn.com.jicongg.mapper.BaseMapper" level="DEBUG" />
     
 	<!-- 日志输出级别 -->
 	<root level="INFO">
