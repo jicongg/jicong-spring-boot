@@ -26,6 +26,10 @@ spring:
       host: localhost
       port: 27017
       database: test
+  messages:
+    basename: messages/message,messages/message_modulea,messages/message_moduleb
+    encoding: UTF-8
+    cache-seconds: 3600
 mybatis:
   mapperLocations: classpath:mybatis/mapper/*.xml
 shiro:
