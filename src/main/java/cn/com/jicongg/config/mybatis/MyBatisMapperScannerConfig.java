@@ -13,7 +13,7 @@ import tk.mybatis.spring.mapper.MapperScannerConfigurer;
 
 
 /**
- *mybatis scan.
+ * mybatis scan.
  * 2017年9月20日
  * 
  * @author jicong.
@@ -29,7 +29,7 @@ public class MyBatisMapperScannerConfig {
 	public MapperScannerConfigurer mapperScannerConfigurer() {
 		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
 		mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
-		mapperScannerConfigurer.setBasePackage("cn.com.jicongg.**.dao.mapper");
+		mapperScannerConfigurer.setBasePackage("com.lamezhi.**.mapper");
 
 		// 初始化扫描器的相关配置，这里我们要创建一个Mapper的父类
 		Properties properties = new Properties();

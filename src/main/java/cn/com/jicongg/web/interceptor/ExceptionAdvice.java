@@ -1,12 +1,12 @@
-package com.lamezhi.framework.web.interceptor;
+package cn.com.jicongg.web.interceptor;
 
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.lamezhi.framework.message.BusinessException;
-import com.lamezhi.framework.message.Message;
-import com.lamezhi.framework.message.MessageUtil;
+import cn.com.jicongg.message.BusinessException;
+import cn.com.jicongg.message.Message;
+import cn.com.jicongg.message.MessageUtil;
 
 /**
  * @author cong.ji

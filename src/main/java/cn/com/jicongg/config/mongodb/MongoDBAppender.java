@@ -8,7 +8,7 @@ import com.mongodb.BasicDBObject;
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.AppenderBase;
-import cn.com.jicongg.config.spring.ApplicationContextProvider;
+import cn.com.jicongg.spring.ApplicationContextProvider;
 
 /**
  * 日志记录适配器.

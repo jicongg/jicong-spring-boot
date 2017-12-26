@@ -1,5 +1,5 @@
 /** */
-package cn.com.jicongg.config.spring.aop;
+package cn.com.jicongg.spring.aop;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;

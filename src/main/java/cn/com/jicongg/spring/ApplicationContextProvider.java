@@ -1,7 +1,7 @@
 /**
  * 
  */
-package cn.com.jicongg.config.spring;
+package cn.com.jicongg.spring;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

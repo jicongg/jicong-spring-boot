@@ -2,6 +2,8 @@ package cn.com.jicongg.config.mybatis;
 
 import java.util.Properties;
 
+import javax.sql.DataSource;
+
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -9,9 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.DefaultResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -21,60 +23,65 @@ import org.springframework.transaction.annotation.TransactionManagementConfigure
 
 import com.github.pagehelper.PageHelper;
 
-import cn.com.jicongg.config.druid.DruidConfig;
-
 /**
+ * 持久化mybait配置. 2017年9月20日
  *
- * 2017年9月20日
- * 
  * @author jicong.
  */
 @Configuration
 @EnableTransactionManagement
 public class MyBatisConfig implements TransactionManagementConfigurer {
 
-	private final Logger logger = LoggerFactory.getLogger(MyBatisConfig.class);
-	
-	@Value("${mybatis.mapperLocations}")
-	private String mapperLocations;
+  private final Logger logger = LoggerFactory.getLogger(MyBatisConfig.class);
 
-	@Autowired
-	private DruidConfig.MyDataSource druidConfig = new DruidConfig().new MyDataSource();
+  @Value("${mybatis.mapperLocations}")
+  private String mapperLocations;
 
-	@Bean(name = "sqlSessionFactory")
-	public SqlSessionFactory sqlSessionFactoryBean() {
+  @Value("${mybatis.configLocation}")
+  private String configLocation;
+  
+  @Autowired
+  private DataSource dataSource;
 
-		try {
-			SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-			bean.setDataSource(druidConfig.dataSource());
-			bean.setTypeAliasesPackage("cn.com.jicongg.*.entity");
 
-			// 分页插件设置
-			PageHelper pageHelper = new PageHelper();
-			Properties properties = new Properties();
-			properties.setProperty("reasonable", "true");
-			properties.setProperty("supportMethodsArguments", "true");
-			properties.setProperty("returnPageInfo", "check");
-			properties.setProperty("params", "count=countSql");
-			pageHelper.setProperties(properties);
+  @Bean(name = "sqlSessionFactory")
+  public SqlSessionFactory sqlSessionFactoryBean() {
 
-			// 添加分页插件
-			bean.setPlugins(new Interceptor[] { pageHelper });
+    try {
+      SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+      bean.setDataSource(dataSource);
+      bean.setTypeAliasesPackage("com.lamezhi.**.entity");
 
-			ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+      // 分页插件设置
+      PageHelper pageHelper = new PageHelper();
+      Properties properties = new Properties();
+      properties.setProperty("reasonable", "true");
+      properties.setProperty("supportMethodsArguments", "true");
+      properties.setProperty("returnPageInfo", "check");
+      properties.setProperty("params", "count=countSql");
+      pageHelper.setProperties(properties);
 
-			// 基于注解扫描Mapper，不需配置xml路径
-			bean.setMapperLocations(resolver.getResources(mapperLocations));
-			logger.info("init mybatis sql session factory bean!");
-			return bean.getObject();
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new RuntimeException(e);
-		}
-	}
+      // 添加分页插件
+      bean.setPlugins(new Interceptor[] {pageHelper});
 
-	public PlatformTransactionManager annotationDrivenTransactionManager() {
-		return new DataSourceTransactionManager(druidConfig.dataSource());
-	}
+      ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
 
+      // 基于注解扫描Mapper，不需配置xml路径
+      bean.setMapperLocations(resolver.getResources(mapperLocations));
+
+      // 加载全局的配置文件
+      bean.setConfigLocation(new DefaultResourceLoader().getResource(configLocation));
+
+      logger.info("init mybatis sql session factory bean!");
+      return bean.getObject();
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
+    }
+  }
+
+  @Override
+  public PlatformTransactionManager annotationDrivenTransactionManager() {
+    return new DataSourceTransactionManager(dataSource);
+  }
 }

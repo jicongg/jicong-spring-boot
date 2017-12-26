@@ -1,0 +1,6 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.com.jicongg.config.mybatis.MyBatisConfig,\
+cn.com.jicongg.config.mybatis.MyBatisMapperScannerConfig,\
+cn.com.jicongg.config.druid.DruidConfig,\
+cn.com.jicongg.config.message.MessageConfig,\
+cn.com.jicongg.config.redis.JedisConfig
